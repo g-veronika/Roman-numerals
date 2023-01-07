@@ -18,6 +18,7 @@
       <div v-if="result !== ''" class="show-result">
         {{ result }}
       </div>
+      <div v-if="zero" class="error">Roman numerals do not include the number 0 🤔</div>
     </div>
   </main>
 </template>
@@ -28,6 +29,7 @@ import { onMounted, ref } from "vue";
 const userInput = ref();
 let result = ref("");
 const inputElement = ref();
+const zero = ref(false);
 
 const convertToRoman = (userNumber: number) => {
   const arabicToRoman = {
@@ -54,14 +56,17 @@ const convertToRoman = (userNumber: number) => {
 
 const submitForm = () => {
   result.value = "";
-
   const latinNumber = Number(userInput.value);
 
   if (latinNumber < 0 || latinNumber > 100) {
     return;
   }
-
-  convertToRoman(userInput.value);
+  if (userInput.value === 0) {
+    zero.value = true;
+  } else {
+    zero.value = false;
+    convertToRoman(userInput.value);
+  }
 };
 
 // Autofocus
@@ -141,6 +146,12 @@ main {
       text-align: center;
       padding: 1rem;
       border-radius: 2px;
+    }
+
+    .error {
+      font-size: 19px;
+      margin-top: 1rem;
+      color: #ff3b30;
     }
   }
 }
