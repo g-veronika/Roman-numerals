@@ -31,30 +31,7 @@ let result = ref("");
 const inputElement = ref();
 const zero = ref(false);
 
-const convertToRoman = (userNumber: number) => {
-  const arabicToRoman = {
-    C: 100,
-    XC: 90,
-    L: 50,
-    XL: 40,
-    X: 10,
-    IX: 9,
-    V: 5,
-    IV: 4,
-    I: 1,
-  };
-
-  for (const arabic in arabicToRoman) {
-    while (userNumber >= arabicToRoman[arabic]) {
-      result.value += arabic;
-      userNumber -= arabicToRoman[arabic];
-    }
-  }
-
-  return result;
-};
-
-const submitForm = () => {
+const submitForm = async () => {
   result.value = "";
   const latinNumber = Number(userInput.value);
 
@@ -65,7 +42,11 @@ const submitForm = () => {
     zero.value = true;
   } else {
     zero.value = false;
-    convertToRoman(userInput.value);
+
+    await fetch(`http://localhost:3000/api/convert/${userInput.value}`)
+      .then((res) => res.json())
+      .then((data) => (result.value = data.msg))
+      .catch((error) => console.log(error));
   }
 };
 
