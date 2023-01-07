@@ -2,11 +2,12 @@
   <main>
     <h1>Roman numerals</h1>
     <p>Enter an integer number from 0 to 100</p>
-    <form>
+    <form @submit.prevent="">
       <input v-model="userInput" type="number" name="number-form" required min="0" max="100" />
-      <button @click="submitForm" type="submit">Cnvert</button>
+      <button @click="submitForm" type="submit">Convert</button>
       <div class="container-result">
         <div>
+          {{ result }}
         </div>
       </div>
     </form>
@@ -14,16 +15,45 @@
 </template>
 
 <script setup lang="ts">
-  
+
 import { ref } from 'vue';
 
-const userInput = ref(500)
+const userInput = ref()
+let result = ref('');
+
+
+const convertToRoman = (userNumber: number) => {
+
+  const arabicToRoman = {
+      "C": 100,
+      "XC": 90,
+      "L": 50,
+      "XL": 40,
+      "X": 10,
+      "IX": 9,
+      "V": 5,
+      "IV": 4,
+      "I": 1
+    }
+
+
+  for (const arabic in arabicToRoman) {
+      while (userNumber >= arabicToRoman[arabic]) {
+          result.value += arabic;
+          userNumber -= arabicToRoman[arabic];
+      }
+  }
+
+  return result;
+}
 
 const submitForm = () => {
-  console.log('submitForm');
-  console.log(userInput.value);
+  result.value = ''
 
+  convertToRoman(userInput.value)
 }
+
+
 
 </script>
 
@@ -45,7 +75,7 @@ main {
   h1 {
     margin-top: 3rem;
   }
-  
+
   p {
     font-size: 20px;
   }
@@ -54,7 +84,7 @@ main {
     display: flex;
     flex-direction: column;
   }
-  
+
 }
 
 </style>
