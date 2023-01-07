@@ -3,8 +3,8 @@
     <h1>Roman numerals</h1>
     <p>Enter an integer number from 0 to 100</p>
     <form>
-      <input type="number" name="number-form" required min="0" max="100" />
-      <button type="submit">Convert</button>
+      <input v-model="userInput" type="number" name="number-form" required min="0" max="100" />
+      <button @click="submitForm" type="submit">Cnvert</button>
       <div class="container-result">
         <div>
         </div>
@@ -13,7 +13,21 @@
   </main>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+  
+import { ref } from 'vue';
+
+const userInput = ref(500)
+
+const submitForm = () => {
+  console.log('submitForm');
+  console.log(userInput.value);
+
+}
+
+</script>
+
+
 
 <style lang="scss">
 
