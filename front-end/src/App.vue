@@ -3,7 +3,7 @@
     <h1>Roman numerals</h1>
     <p>Enter an integer number from 0 to 100</p>
     <form @submit.prevent="">
-      <input v-model="userInput" type="number" name="number-form" required min="0" max="100" />
+      <input v-model="userInput" ref="inputElement" type="number" name="number-form" required min="0" max="100" />
       <button @click="submitForm" type="submit">Convert</button>
       <div class="container-result">
         <div>
@@ -16,10 +16,11 @@
 
 <script setup lang="ts">
 
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 
 const userInput = ref()
 let result = ref('');
+const inputElement = ref()
 
 
 const convertToRoman = (userNumber: number) => {
@@ -53,7 +54,10 @@ const submitForm = () => {
   convertToRoman(userInput.value)
 }
 
-
+  // Autofocus
+  onMounted(() => {
+    inputElement.value.focus()
+  })
 
 </script>
 
