@@ -1,0 +1,10 @@
+{
+    "extends": "@vue/tsconfig/tsconfig.web.json",
+
+    "include": [
+        "./src/*.ts",
+        "./src/*.vue",
+        "./*.config.ts",
+        "./src/*.vue",
+    ]
+}
