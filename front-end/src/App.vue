@@ -24,7 +24,7 @@
 </template>
 
 <script setup lang="ts">
-import { inject, onMounted, ref } from "vue";
+import { onMounted, ref } from "vue";
 
 // const $http: any = inject("$http");
 const userInput = ref();
@@ -70,6 +70,7 @@ main {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  height: 80vh;
 
   h1 {
     margin-top: 3rem;
