@@ -26,7 +26,7 @@
 <script setup lang="ts">
 import { inject, onMounted, ref } from "vue";
 
-const $http: any = inject("$http");
+// const $http: any = inject("$http");
 const userInput = ref();
 let result = ref("");
 const inputElement = ref();
@@ -36,7 +36,7 @@ const submitForm = async () => {
   result.value = "";
   const latinNumber = Number(userInput.value);
 
-  if (latinNumber < 0 || latinNumber > 100) {
+  if (latinNumber < 0 || latinNumber > 100 || userInput.value === undefined) {
     return;
   }
   if (userInput.value === 0) {
@@ -44,18 +44,12 @@ const submitForm = async () => {
   } else {
     zero.value = false;
 
-    // await fetch(`http://localhost:3000/api/convert/${userInput.value}`)
-    //   .then((res) => res.json())
-    //   .then((data) => (result.value = data.msg))
-    //   .catch((error) => console.log(error));
+    const eventSource = new EventSource(`http://localhost:3000/api/convert/${latinNumber}`);
 
-    // Ajax request
-    try {
-      const { data } = await $http.get(`http://localhost:3000/api/convert/${latinNumber}`);
-      result.value = data.msg;
-    } catch (error) {
-      console.log(error);
-    }
+    eventSource.onmessage = (message) => {
+      result.value = message.data;
+      eventSource.close();
+    };
   }
 };
 
