@@ -6,7 +6,9 @@ const convertToRoman = require('./converter')
 
 
 var corsOptions = {
-    origin: 'http://localhost:5173',
+
+  // 1st url for front-end, 2nd url for cypress testing
+    origin: ['http://localhost:5173', 'http://localhost:4173'],
     optionsSuccessStatus: 200, 
 }
 
