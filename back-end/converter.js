@@ -1,5 +1,5 @@
 // userNumber is user input number which will be converted into roman numeral
-export default convertToRoman = (userNumber) => {
+const convertToRoman = (userNumber) => {
 
     let result = '';
 
@@ -28,6 +28,7 @@ export default convertToRoman = (userNumber) => {
             userNumber -= arabicToRoman[arabic]; 
         } 
     } 
-
     return result;
 }
+
+module.exports = convertToRoman;
