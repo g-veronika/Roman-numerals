@@ -26,28 +26,39 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 
-// const $http: any = inject("$http");
 const userInput = ref();
+
+// Final result is a String containing a roman numeral
 let result = ref("");
+
+// inputElement is used to autofocus the input
 const inputElement = ref();
 const zero = ref(false);
 
 const submitForm = async () => {
+  // Before converting we make sure to clear the result which we had before
   result.value = "";
+  // Converting userInput from String to a Number
   const latinNumber = Number(userInput.value);
 
+  // Double verification: user input can't be negative, undefined or >100 number
   if (latinNumber < 0 || latinNumber > 100 || userInput.value === undefined) {
     return;
   }
+
+  // Error message displayed when user input is 0
   if (userInput.value === 0) {
     zero.value = true;
   } else {
     zero.value = false;
 
+    // If user input is correct we open connection to the API using SSE communication
     const eventSource = new EventSource(`http://localhost:3000/api/convert/${latinNumber}`);
 
+    // We listen to server messages
     eventSource.onmessage = (message) => {
       result.value = message.data;
+      // We close the connection with the server once we've got the result
       eventSource.close();
     };
   }
